@@ -31,6 +31,9 @@ import {
   } from '@tabler/icons-react';
   import classes from './Navbar.module.css';
 import { MantineLogo } from '@mantinex/mantine-logo';
+import Link from 'next/link';
+import { Session } from 'next-auth';
+import { SignOutServer } from '@/components/Authentication/AuthServer';
 
   const features = [
     {
@@ -65,7 +68,7 @@ import { MantineLogo } from '@mantinex/mantine-logo';
     },
   ];
 
-  export function Navbar({ session }) {
+  export function Navbar({ session }: { session: Session | null }) {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const theme = useMantineTheme();
@@ -149,14 +152,14 @@ import { MantineLogo } from '@mantinex/mantine-logo';
 
             <Group visibleFrom="sm">
                 {
-                    session ? (
+                    session?.user ? (
                         <Group>
-                            <Button variant="default">{session.user.name}</Button>
-                            <Button>Log out</Button>
+                            <Button variant="default">{session?.user?.name}</Button>
+                            <Button onClick={(event) => SignOutServer()} variant="default">Sign out</Button>
                         </Group>
                     ) : (
                         <Group>
-                            <Button variant="default">Log in</Button>
+                            <Link href="/auth/login"><Button variant="default">Log in</Button></Link>
                             <Button>Sign up</Button>
                         </Group>
                     )

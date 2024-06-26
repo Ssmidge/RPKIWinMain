@@ -1,12 +1,11 @@
 "use client"
-import { signIn } from "@/auth"
 import { Button, Center, Checkbox, Container, Flex, Group, Paper, TextInput, Title } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import classes from './Signin.module.css';
 import Link from "next/link";
-import SignInServer from "./SignInServer";
+import { SignInServer } from "../AuthServer";
 
-export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating, setPasswordFocused}) {
+export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating, setPasswordFocused}: { form: any, emailFloating: boolean, setEmailFocused: any, passwordFloating: boolean, setPasswordFocused: any }) {
+  console.log(form.getValues());
   return (
     <>
       <Center>
@@ -16,7 +15,7 @@ export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating,
       <Container size="sm" mt="10rem">
         <Center>
         <Paper shadow="xs" radius="md" withBorder p="30px" style={{width: "100%"}}>
-          <form onSubmit={form.onSubmit((values) => {
+          <form onSubmit={form.onSubmit((values: any) => {
             SignInServer(values)
           })}>
             <TextInput

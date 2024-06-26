@@ -26,13 +26,7 @@ export default function HomePage() {
   const passwordFloating = form.getValues().password.trim().length !== 0 || passwordFocused || undefined;
   return (
     <>
-      <SignIn {...{
-        form,
-        emailFloating,
-        setEmailFocused,
-        passwordFloating,
-        setPasswordFocused,
-      }} />
+      <SignIn />
     </>
   );
 }
