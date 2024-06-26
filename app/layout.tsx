@@ -4,13 +4,16 @@ import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '../theme';
 import './styles/globals.css';
 import { Navbar } from '@/components/layout/Navbar';
+import { auth } from '@/auth';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata = {
   title: 'RPKI.Win',
   description: 'A hosted RPKI authority service for your hobby network!',
 };
 
-export default function RootLayout({ children }: { children: any }) {
+export default async function RootLayout({ children }: { children: any }) {
+  const session = await auth();
   return (
     <html lang="en">
       <head>
@@ -23,8 +26,12 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="dark">
-          <Navbar />
-          {children}
+          {/* <SessionProvider> */}
+            <Navbar {...{
+              session
+            }} />
+            {children}
+          {/* </SessionProvider> */}
         </MantineProvider>
       </body>
     </html>

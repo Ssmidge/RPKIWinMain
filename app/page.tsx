@@ -3,8 +3,14 @@ import { Hero } from '../components/Hero';
 import { Welcome } from '../components/Welcome/Welcome';
 import { Navbar } from '../components/layout/Navbar';
 import { Dots } from '../components/Dots';
+import SessionData from '@/components/Authentication/Session';
+import { auth } from '@/auth';
+import { useSession } from 'next-auth/react';
 
-export default function HomePage() {
+export default async function HomePage() {
+
+  const session = await auth();
+
   return (
     <>
       <Container>
@@ -14,6 +20,9 @@ export default function HomePage() {
         <Dots className="dots" style={{ right: 100, top: 600 }} />
       </Container>
       <Hero />
+      <SessionData {...{
+        session
+      }}/>
     </>
   );
 }
