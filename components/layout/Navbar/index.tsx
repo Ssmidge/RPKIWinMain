@@ -154,12 +154,12 @@ import { SignOutServer } from '@/components/Authentication/AuthServer';
                 {
                     session?.user ? (
                         <Group>
-                            <Button variant="default">{session?.user?.name}</Button>
-                            <Button onClick={(event) => SignOutServer()} variant="default">Sign out</Button>
+                            <Link href="/dashboard"><Button variant="outline">Dashboard</Button></Link>
+                            <Button onClick={() => SignOutServer()} variant="default">Sign out</Button>
                         </Group>
                     ) : (
                         <Group>
-                            <Link href="/auth/login"><Button variant="default">Log in</Button></Link>
+                            <Link href="/auth/signin"><Button variant="default">Log in</Button></Link>
                             <Button>Sign up</Button>
                         </Group>
                     )

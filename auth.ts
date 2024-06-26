@@ -1,5 +1,6 @@
-import NextAuth from "next-auth"
-import Credentials from "next-auth/providers/credentials"
+import NextAuth from "next-auth";
+import "next-auth/jwt";
+import Credentials from "next-auth/providers/credentials";
 // import bcrypt from "bcrypt"
 
  
@@ -17,21 +18,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
  
         // logic to salt and hash password
         const pwHash = await saltAndHashPassword(credentials.password)
+        console.log(pwHash, credentials.email)
  
         // logic to verify if user exists
         user = await getUserFromDb(credentials.email, pwHash)
- 
         if (!user) {
-          // No user found, so this is their first attempt to login
-          // meaning this is also the place you could do registration
-          throw new Error("User not found.")
+          throw new Error("No user found")
         }
  
         // return user object with the their profile data
-        return user
+        return user;
       },
     }),
   ],
+  callbacks: {
+    authorized({ request, auth }) {
+      const { pathname } = request.nextUrl
+      if (pathname === "/dashboard") return !!auth
+      return true
+    },
+    jwt({ token, trigger, session, account }) {
+      if (trigger === "update") token.name = session.user.name
+      return token
+    },
+    async session({ session, token }) {
+      if (token?.accessToken) {
+        session.accessToken = token.accessToken
+      }
+      return session
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    }
+  },
+  pages: {
+    signIn: "/auth/signin",
+  },
 })
 
 async function saltAndHashPassword(password: string) {
@@ -43,9 +69,26 @@ async function saltAndHashPassword(password: string) {
 
 async function getUserFromDb(email: string, password: string) {
   // logic to verify if user exists
-  return {
-    email: email,
-    name: email,
-    password: password,
+  console.log(email, password)
+  if(email == "a@a.com" && password == "password") {
+    return {
+      email: email,
+      name: email,
+      password: password,
+    }
+  } else {
+    return {};
+  }
+}
+
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    accessToken?: string
   }
 }

@@ -3,9 +3,28 @@ import { Button, Center, Checkbox, Container, Flex, Group, Paper, TextInput, Tit
 import classes from './Signin.module.css';
 import Link from "next/link";
 import { SignInServer } from "../AuthServer";
+import { useForm } from '@mantine/form';
+import { useState } from 'react';
 
-export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating, setPasswordFocused}: { form: any, emailFloating: boolean, setEmailFocused: any, passwordFloating: boolean, setPasswordFocused: any }) {
-  console.log(form.getValues());
+export function SignIn() {
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      email: '',
+      password: '',
+      termsOfService: false,
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+  
+  const [emailFocused, setEmailFocused] = useState(false);
+  const emailFloating = form.getValues().email.trim().length !== 0 || emailFocused || undefined;
+
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const passwordFloating = form.getValues().password.trim().length !== 0 || passwordFocused || undefined;
   return (
     <>
       <Center>
@@ -22,6 +41,8 @@ export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating,
               withAsterisk
                 label="Email"
                 required
+                type="email"
+                autoComplete='email'
                 classNames={classes}
                 data-floating={emailFloating}
                 labelProps={{ 'data-floating': emailFloating }}
@@ -30,6 +51,7 @@ export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating,
                 mt="xs"
                 onFocus={() => setEmailFocused(true)}
                 onBlur={() => setEmailFocused(false)}
+                id='email'
                 {...form.getInputProps('email', {
                   withFocus: false,
                 })}
@@ -38,10 +60,13 @@ export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating,
                 withAsterisk
                 label="Password"
                 required
+                autoComplete='current-password'
+                type="password"
                 classNames={classes}
                 data-floating={passwordFloating}
                 labelProps={{ 'data-floating': passwordFloating }}
                 mt="xl"
+                id='password'
                 placeholder="1L0v3P@ssw0rds"
                 onFocus={() => setPasswordFocused(true)}
                 onBlur={() => setPasswordFocused(false)}
@@ -50,14 +75,6 @@ export function SignIn({ form, emailFloating, setEmailFocused, passwordFloating,
                   withFocus: false,
                 })}
               />
-
-              <Checkbox
-                mt="md"
-                label="I accept the terms of service"
-                key={form.key('termsOfService')}
-                {...form.getInputProps('termsOfService', { type: 'checkbox' })}
-              />
-
               <Group justify="center" mt="md">
                 <Button type="submit" style={{ width: "100%" }} radius="md" size="md">Submit</Button>
               </Group>
