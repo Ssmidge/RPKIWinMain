@@ -3,6 +3,7 @@ import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '../theme';
 import './styles/globals.css';
+import { Navbar } from '@/components/layout/Navbar';
 
 export const metadata = {
   title: 'RPKI.Win',
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="dark">
+          <Navbar />
           {children}
         </MantineProvider>
       </body>
