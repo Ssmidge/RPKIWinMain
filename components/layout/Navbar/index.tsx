@@ -134,7 +134,7 @@ import { MantineLogo } from '@mantinex/mantine-logo';
                           Get started
                         </Text>
                         <Text size="xs" c="dimmed">
-                          Their food sources have decreased, and their numbers
+                          What are you waiting for? Let's get started!
                         </Text>
                       </div>
                       <Button variant="default">Get started</Button>
@@ -144,9 +144,6 @@ import { MantineLogo } from '@mantinex/mantine-logo';
               </HoverCard>
               <a href="#" className={classes.link}>
                 Learn
-              </a>
-              <a href="#" className={classes.link}>
-                Academy
               </a>
             </Group>
 
