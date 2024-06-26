@@ -6,11 +6,13 @@ import { isRedirectError } from "next/dist/client/components/redirect";
 
 export async function SignInServer(values: any, callBackUrl: string = "/dashboard") {
     try {
-        await signIn("credentials", {
+        const attempt = await signIn("credentials", {
             redirectTo: callBackUrl,
-            redirect: true,
+            redirect: false,
             ...values,
         });
+        
+        return attempt;
     } catch (error) {
         if (isRedirectError(error)) throw error;
     }

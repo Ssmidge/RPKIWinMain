@@ -13,5 +13,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
+    'linebreak-style': 'off',
+    '@stylistic/js/linebreak-style': 'off'
   },
 };

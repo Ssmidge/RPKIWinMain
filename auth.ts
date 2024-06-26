@@ -1,9 +1,12 @@
-import NextAuth from "next-auth";
-import "next-auth/jwt";
-import Credentials from "next-auth/providers/credentials";
+import NextAuth, { CredentialsSignin, AuthError } from 'next-auth';
+import 'next-auth/jwt';
+import Credentials from 'next-auth/providers/credentials';
 // import bcrypt from "bcrypt"
 
- 
+class InvalidLoginError extends CredentialsSignin {
+  code = 'Invalid identifier or password';
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -13,52 +16,56 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: {},
         password: {},
       },
-      authorize: async (credentials: any) => {
-        let user = null
- 
-        // logic to salt and hash password
-        const pwHash = await saltAndHashPassword(credentials.password)
-        console.log(pwHash, credentials.email)
- 
-        // logic to verify if user exists
-        user = await getUserFromDb(credentials.email, pwHash)
-        if (!user) {
-          throw new Error("No user found")
-        }
- 
-        // return user object with the their profile data
-        return user;
+      async authorize(credentials: any) {
+        throw new InvalidLoginError();
+        // let user = null
+
+        // // logic to salt and hash password
+        // const pwHash = await saltAndHashPassword(credentials.password)
+
+        // // logic to verify if user exists
+        // user = await getUserFromDb(credentials.email, pwHash)
+        // if (!user) {
+        //   throw new CredentialsSignin("Invalid email or password")
+        // }
+
+        // // return user object with the their profile data
+        // return user;
       },
     }),
   ],
   callbacks: {
     authorized({ request, auth }) {
-      const { pathname } = request.nextUrl
-      if (pathname === "/dashboard") return !!auth
-      return true
+      const { pathname } = request.nextUrl;
+      if (pathname === '/dashboard') return !!auth;
+      return true;
     },
     jwt({ token, trigger, session, account }) {
-      if (trigger === "update") token.name = session.user.name
-      return token
+      if (trigger === 'update') token.name = session.user.name;
+      return token;
     },
     async session({ session, token }) {
       if (token?.accessToken) {
-        session.accessToken = token.accessToken
+        session.accessToken = token.accessToken;
       }
-      return session
+      return session;
     },
     async redirect({ url, baseUrl }) {
       // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url;
+      if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
-    }
+    },
+    async signIn({ profile }): Promise<string | boolean> {
+
+    },
   },
   pages: {
-    signIn: "/auth/signin",
+    signIn: '/auth/signin',
+    // error: "/auth/signin",
   },
-})
+});
 
 async function saltAndHashPassword(password: string) {
   // logic to salt and hash password
@@ -69,25 +76,23 @@ async function saltAndHashPassword(password: string) {
 
 async function getUserFromDb(email: string, password: string) {
   // logic to verify if user exists
-  console.log(email, password)
-  if(email == "a@a.com" && password == "password") {
+  if (email == 'a@a.com' && password == 'password') {
     return {
-      email: email,
+      email,
       name: email,
-      password: password,
-    }
-  } else {
-    return {};
+      password,
+    };
   }
+    return null;
 }
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     accessToken?: string
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string
   }

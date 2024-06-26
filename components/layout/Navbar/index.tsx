@@ -34,6 +34,7 @@ import { MantineLogo } from '@mantinex/mantine-logo';
 import Link from 'next/link';
 import { Session } from 'next-auth';
 import { SignOutServer } from '@/components/Authentication/AuthServer';
+import { useRouter } from 'next/navigation';
 
   const features = [
     {
@@ -72,6 +73,7 @@ import { SignOutServer } from '@/components/Authentication/AuthServer';
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const theme = useMantineTheme();
+    const router = useRouter();
 
     const links = features.map((item) => (
       <UnstyledButton className={classes.subLink} key={item.title}>
@@ -98,7 +100,10 @@ import { SignOutServer } from '@/components/Authentication/AuthServer';
             <MantineLogo size={30} />
 
             <Group h="100%" gap={0} visibleFrom="sm">
-              <a href="/" className={classes.link}>
+              <a href="/" className={classes.link} onClick={(event) => {
+                event.preventDefault();
+                router.push('/');
+              }}>
                 Home
               </a>
               <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
@@ -154,12 +159,12 @@ import { SignOutServer } from '@/components/Authentication/AuthServer';
                 {
                     session?.user ? (
                         <Group>
-                            <Link href="/dashboard"><Button variant="outline">Dashboard</Button></Link>
+                            <Link href="/dashboard" onClick={(event: any) => { event.preventDefault(); router.push('/dashboard'); }}><Button variant="outline">Dashboard</Button></Link>
                             <Button onClick={() => SignOutServer()} variant="default">Sign out</Button>
                         </Group>
                     ) : (
                         <Group>
-                            <Link href="/auth/signin"><Button variant="default">Log in</Button></Link>
+                            <Link href="/auth/signin" onClick={(event: any) => { event.preventDefault(); router.push('/auth/signin'); }}><Button variant="default">Log in</Button></Link>
                             <Button>Sign up</Button>
                         </Group>
                     )

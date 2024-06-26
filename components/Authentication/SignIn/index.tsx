@@ -5,8 +5,10 @@ import Link from "next/link";
 import { SignInServer } from "../AuthServer";
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
 export function SignIn() {
+  const router = useRouter();
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -25,17 +27,41 @@ export function SignIn() {
 
   const [passwordFocused, setPasswordFocused] = useState(false);
   const passwordFloating = form.getValues().password.trim().length !== 0 || passwordFocused || undefined;
+
+  // handle signin
+
+  // check for errors first
+  const [loginError, setLoginError] = useState('');
+  const queryParams = useSearchParams();
+  if(queryParams?.get("error")) {
+    setLoginError(queryParams.get("error") as string)
+    form.setFieldValue('email', queryParams.get("email") as string)
+  }
+
+  async function handleSignIn(values: any) {
+    try {
+      const res = SignInServer(values)
+      res.then((result) => {
+        if (result) {
+          // redirect to dashboard
+          router.push("/dashboard")
+        }
+      });
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   return (
     <>
       <Center>
         <Title order={1} px={"xl"}>Panel authentication</Title>
       </Center>
-        {/* <Center> */}
       <Container size="sm" mt="10rem">
         <Center>
         <Paper shadow="xs" radius="md" withBorder p="30px" style={{width: "100%"}}>
           <form onSubmit={form.onSubmit((values: any) => {
-            SignInServer(values)
+            handleSignIn(values)
           })}>
             <TextInput
               withAsterisk
@@ -76,6 +102,11 @@ export function SignIn() {
                 })}
               />
               <Group justify="center" mt="md">
+                {
+                  loginError ?
+                    <p style={{color: "red"}}>{loginError}</p>
+                  : null
+                }
                 <Button type="submit" style={{ width: "100%" }} radius="md" size="md">Submit</Button>
               </Group>
 
@@ -91,11 +122,6 @@ export function SignIn() {
           </Paper>
         </Center>
       </Container>
-          {/* <div className={classes.inner}> */}
-            {/* <div className={classes.content}> */}
-            {/* </div> */}
-          {/* </div> */}
-        {/* </Center> */}
     </>
   );
 }
