@@ -5,13 +5,12 @@
 import { Button, Center, Container, Group, Paper, TextInput, Title } from '@mantine/core';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from '@mantine/form';
 import { signIn } from 'next-auth/react';
 import classes from '@/components/Authentication/SignIn/Signin.module.css';
 
 export default function HomePage() {
-  const router = useRouter();
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -31,6 +30,10 @@ export default function HomePage() {
   const passwordFloating = form.getValues().password?.trim().length !== 0 || passwordFocused || undefined;
 
   // handle signin
+  function handleSignIn(values: any) {
+    const res = signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values });
+    console.log(res);
+  }
 
   // check for errors first
 
@@ -53,7 +56,7 @@ export default function HomePage() {
       <Container size="sm" mt="10rem">
         <Center>
         <Paper shadow="xs" radius="md" withBorder p="30px" style={{ width: '100%' }}>
-          <form onSubmit={form.onSubmit((values) => signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values }))}>
+          <form onSubmit={form.onSubmit((values: any) => { handleSignIn(values); })}>
             <TextInput
               withAsterisk
               label="Email"

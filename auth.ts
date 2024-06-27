@@ -1,20 +1,19 @@
 import NextAuth, { CredentialsSignin } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
-import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import bcrypt from 'bcrypt';
-import clientPromise from './lib/db';
+import argon2 from 'argon2';
+import { authConfig } from './auth.config';
+import prisma from './lib/prismaClient';
 
 class InvalidLoginError extends CredentialsSignin {
   constructor(message: string, actualErrorMessage?: string) {
     super(actualErrorMessage);
     this.code = `Invalid email or password${message}`;
   }
-  // code = `Invalid email or password&email=${this.message}`;
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  ...authConfig,
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
@@ -40,52 +39,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    authorized({ request }) {
-      const { pathname } = request.nextUrl;
-      if (pathname === '/dashboard') return !!auth;
-      return true;
-    },
-    jwt({ token, trigger, session }) {
-      if (trigger === 'update') token.name = session.user.name;
-      return token;
-    },
-    async session({ session, token }) {
-      if (token?.accessToken) {
-        session.accessToken = token.accessToken;
-      }
-      return session;
-    },
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith('/')) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
-      if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
-    },
-  },
-  pages: {
-    signIn: '/auth/signin',
-  },
 });
 
 async function saltAndHashPassword(password: string) {
-  // logic to salt and hash password
-  // const salt = await bcrypt.genSalt(10);
-  // const hash = await bcrypt.hash(password, salt);
-  return password;
+  return argon2.hash(password);
 }
 
 async function getUserFromDb(email: string, password: string) {
-  // logic to verify if user exists
-  if (email === 'a@a.com' && password === 'password') {
-    return {
-      email,
-      name: email,
-      password,
-    };
+  const user = await prisma.user.findFirst({
+    where: {
+        email,
+    },
+  });
+
+  if (user?.hashedPassword) {
+      const passwordCorrect = await argon2.verify(user.hashedPassword, password);
+
+      if (passwordCorrect) {
+          return {
+              id: user.id,
+              name: user.email,
+              email: user.email,
+          };
+      }
   }
-    return null;
+  return null;
 }
 
 declare module 'next-auth' {
