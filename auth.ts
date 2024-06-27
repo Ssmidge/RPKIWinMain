@@ -1,13 +1,20 @@
-import NextAuth, { CredentialsSignin, AuthError } from 'next-auth';
+import NextAuth, { CredentialsSignin } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
-// import bcrypt from "bcrypt"
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import bcrypt from 'bcrypt';
+import clientPromise from './lib/db';
 
 class InvalidLoginError extends CredentialsSignin {
-  code = 'Invalid identifier or password';
+  constructor(message: string, actualErrorMessage?: string) {
+    super(actualErrorMessage);
+    this.code = `Invalid email or password${message}`;
+  }
+  // code = `Invalid email or password&email=${this.message}`;
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
@@ -17,30 +24,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       async authorize(credentials: any) {
-        throw new InvalidLoginError();
-        // let user = null
+        let user = null;
 
-        // // logic to salt and hash password
-        // const pwHash = await saltAndHashPassword(credentials.password)
+        // logic to salt and hash password
+        const pwHash = await saltAndHashPassword(credentials.password);
 
-        // // logic to verify if user exists
-        // user = await getUserFromDb(credentials.email, pwHash)
-        // if (!user) {
-        //   throw new CredentialsSignin("Invalid email or password")
-        // }
+        // logic to verify if user exists
+        user = await getUserFromDb(credentials.email, pwHash);
+        if (!user) {
+          throw new InvalidLoginError(`&email=${credentials.email}`, undefined);
+        }
 
-        // // return user object with the their profile data
-        // return user;
+        // return user object with the their profile data
+        return user;
       },
     }),
   ],
   callbacks: {
-    authorized({ request, auth }) {
+    authorized({ request }) {
       const { pathname } = request.nextUrl;
       if (pathname === '/dashboard') return !!auth;
       return true;
     },
-    jwt({ token, trigger, session, account }) {
+    jwt({ token, trigger, session }) {
       if (trigger === 'update') token.name = session.user.name;
       return token;
     },
@@ -57,13 +63,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    async signIn({ profile }): Promise<string | boolean> {
-
-    },
   },
   pages: {
     signIn: '/auth/signin',
-    // error: "/auth/signin",
   },
 });
 
@@ -76,7 +78,7 @@ async function saltAndHashPassword(password: string) {
 
 async function getUserFromDb(email: string, password: string) {
   // logic to verify if user exists
-  if (email == 'a@a.com' && password == 'password') {
+  if (email === 'a@a.com' && password === 'password') {
     return {
       email,
       name: email,
