@@ -1,7 +1,6 @@
 import NextAuth, { CredentialsSignin } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
-import argon2 from 'argon2';
 import { authConfig } from './auth.config';
 import prisma from './lib/prismaClient';
 
@@ -42,27 +41,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 });
 
 async function saltAndHashPassword(password: string) {
-  return argon2.hash(password);
+  return password;
 }
 
 async function getUserFromDb(email: string, password: string) {
-  const user = await prisma.user.findFirst({
-    where: {
-        email,
-    },
-  });
-
-  if (user?.hashedPassword) {
-      const passwordCorrect = await argon2.verify(user.hashedPassword, password);
-
-      if (passwordCorrect) {
-          return {
-              id: user.id,
-              name: user.email,
-              email: user.email,
-          };
-      }
-  }
   return null;
 }
 
