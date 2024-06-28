@@ -31,8 +31,7 @@ export default function HomePage() {
 
   // handle signin
   function handleSignIn(values: any) {
-    const res = signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values });
-    console.log(res);
+    
   }
 
   // check for errors first
@@ -56,7 +55,7 @@ export default function HomePage() {
       <Container size="sm" mt="10rem">
         <Center>
         <Paper shadow="xs" radius="md" withBorder p="30px" style={{ width: '100%' }}>
-          <form onSubmit={form.onSubmit((values: any) => { handleSignIn(values); })}>
+          <form onSubmit={form.onSubmit((values: any) => { signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values }); })}>
             <TextInput
               withAsterisk
               label="Email"

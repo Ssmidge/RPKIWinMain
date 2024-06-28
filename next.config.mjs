@@ -15,7 +15,9 @@ export default withBundleAnalyzer({
   },
   webpack: (config) => {
     config.externals = [...config.externals, {
-      'node:crypto': 'commonjs crypto'
+      "argon2": "argon2",
+      "bcrypt": "bcrypt",
+      "@mapbox/node-pre-gyp": "@mapbox/node-pre-gyp",
     }];
     return config;
   },

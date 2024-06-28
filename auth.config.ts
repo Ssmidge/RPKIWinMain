@@ -2,6 +2,8 @@ import { NextAuthConfig } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import prisma from '@/lib/prismaClient';
 
+import { auth } from './auth';
+
 export const authConfig = {
     adapter: PrismaAdapter(prisma),
     session: { strategy: 'jwt' },
@@ -31,6 +33,7 @@ export const authConfig = {
       },
       pages: {
         signIn: '/auth/signin',
+        error: '/auth/signin',
       },
       providers: [],
 } satisfies NextAuthConfig;
