@@ -29,11 +29,6 @@ export default function HomePage() {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const passwordFloating = form.getValues().password?.trim().length !== 0 || passwordFocused || undefined;
 
-  // handle signin
-  function handleSignIn(values: any) {
-    
-  }
-
   // check for errors first
 
   const [loginError, setLoginError] = useState('');
@@ -47,6 +42,13 @@ export default function HomePage() {
     }
   }, []);
 
+  function handleSignIn(values: any) {
+    const res = signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values }) as any;
+    res.then((result: any) => {
+      console.log(result);
+    });
+  }
+
   return (
     <>
       <Center>
@@ -55,7 +57,7 @@ export default function HomePage() {
       <Container size="sm" mt="10rem">
         <Center>
         <Paper shadow="xs" radius="md" withBorder p="30px" style={{ width: '100%' }}>
-          <form onSubmit={form.onSubmit((values: any) => { signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values }); })}>
+          <form onSubmit={form.onSubmit((values: any) => { handleSignIn(values); })}>
             <TextInput
               withAsterisk
               label="Email"
