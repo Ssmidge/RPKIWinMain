@@ -1,14 +1,14 @@
 import '@mantine/core/styles.css';
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import { theme } from '../theme';
-import './styles/globals.css';
+import { SessionProvider } from 'next-auth/react';
+import { theme } from '@/theme';
+import '@/app/styles/globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { auth } from '@/auth';
-import { SessionProvider } from 'next-auth/react';
 
 export const metadata = {
-  title: 'RPKI.Win',
+  title: 'RPKI.Win - Dashboard',
   description: 'A hosted RPKI authority service for your hobby network!',
 };
 
@@ -28,7 +28,7 @@ export default async function RootLayout({ children }: { children: any }) {
         <MantineProvider theme={theme} defaultColorScheme="dark">
           <SessionProvider>
             <Navbar {...{
-              session
+              session,
             }} />
             {children}
           </SessionProvider>

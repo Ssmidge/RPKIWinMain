@@ -104,9 +104,10 @@ import classes from './Navbar.module.css';
                 href="/"
                 className={classes.link}
                 onClick={(event) => {
-                event.preventDefault();
-                router.push('/');
-              }}>
+                  event.preventDefault();
+                  router.push('/')
+                }
+              }>
                 Home
               </a>
               <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
