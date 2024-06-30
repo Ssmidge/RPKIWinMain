@@ -3,6 +3,7 @@ import NextAuth, { CredentialsSignin } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import type { Provider } from 'next-auth/providers';
+import bcrypt from 'bcrypt';
 import { authConfig } from './auth.config';
 import prisma from './lib/prismaClient';
 
@@ -25,16 +26,20 @@ export const providers : Provider[] = [
       let user = null;
 
       // logic to salt and hash password
-      const pwHash = await saltAndHashPassword(credentials.password);
+      const pwHash = await credentials.password;
 
-      // logic to verify if user exists
-      user = await getUserFromDb(credentials.email, pwHash);
-      if (!user) {
-        throw new InvalidLoginError(`&email=${credentials.email}`, undefined);
+      try {
+        user = await prisma.user.findFirst({
+          where: {
+            email: credentials.email,
+            hashedPassword: pwHash,
+          },
+        });
+
+        return user;
+      } catch (error) {
+        throw new InvalidLoginError(`&email=${credentials.email}`);
       }
-
-      // return user object with the their profile data
-      return user;
     },
   }),
 ];
@@ -51,21 +56,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   providers,
 });
-
-async function saltAndHashPassword(password: string) {
-  return password;
-}
-
-async function getUserFromDb(email: string, password: string) {
-  if (email.toLocaleLowerCase() === 'a@a.com' && password === 'password') {
-    return {
-      email,
-      password,
-      name: 'John Doe',
-    };
-  }
-  return null;
-}
 
 declare module 'next-auth' {
   interface Session {

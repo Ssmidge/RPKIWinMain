@@ -1,5 +1,4 @@
-import { Button, Container, Flex, Grid, GridCol } from '@mantine/core';
-import SessionData from '@/components/Authentication/Session';
+import { Container, Flex, Grid, GridCol } from '@mantine/core';
 import { auth } from '@/auth';
 import { ProfileCard } from '@/components/Dashboard/ProfileCard';
 import { WelcomeCard } from '@/components/Dashboard/WelcomeCard';
@@ -11,7 +10,7 @@ export default async function HomePage() {
     <>
       <Container size="xl">
         <Grid>
-          <GridCol span={{ sm: 12, md: 12, lg: 4 }}>
+          <GridCol span={{ sm: 14, md: 12, lg: 4 }}>
             <ProfileCard {...{ session }} />
           </GridCol>
           <GridCol span={{ sm: 12, md: 12, lg: 8 }}>
@@ -19,15 +18,6 @@ export default async function HomePage() {
               <WelcomeCard {...{ session }} />
               {/* <StatsGroup data={mockData} /> */}
             </Flex>
-          </GridCol>
-          <GridCol span={{ sm: 12, md: 12, lg: 8 }}>
-            {/* <BalanceCard /> */}
-          </GridCol>
-          <GridCol span={{ sm: 12, md: 12, lg: 4 }}>
-            {/* <OverviewCard /> */}
-          </GridCol>
-          <GridCol span={12}>
-            {/* <TransactionCard /> */}
           </GridCol>
         </Grid>
       </Container>

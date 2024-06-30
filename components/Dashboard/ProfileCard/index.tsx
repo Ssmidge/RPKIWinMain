@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import { IconDots, IconEye, IconFileZip, IconTrash } from '@tabler/icons-react';
 import { Session } from 'next-auth';
+import { useRouter } from 'next/navigation';
 
 const sectionStyle = {
  padding: 'var(--mantine-spacing-md)',
@@ -22,6 +23,7 @@ const sectionStyle = {
 };
 
 export function ProfileCard({ session }: { session: Session | null }) {
+    const router = useRouter();
  return (
   <Card radius="md">
     <Card.Section style={sectionStyle}>
@@ -59,7 +61,7 @@ export function ProfileCard({ session }: { session: Session | null }) {
 
     <Card.Section style={sectionStyle}>
     <Group>
-        <Button variant="light">Create ROA</Button>
+        <Button variant="light" onClick={() => router.push('/rpki/roa')}>Create ROA</Button>
         <Button>Open Krill</Button>
     </Group>
     </Card.Section>

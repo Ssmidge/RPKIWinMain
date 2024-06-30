@@ -26,12 +26,12 @@ export default async function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="dark">
-          {/* <SessionProvider> */}
+          <SessionProvider>
             <Navbar {...{
               session
             }} />
             {children}
-          {/* </SessionProvider> */}
+          </SessionProvider>
         </MantineProvider>
       </body>
     </html>
