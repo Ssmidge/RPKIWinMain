@@ -7599,6 +7599,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cidr-regex@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "cidr-regex@npm:4.1.1"
+  dependencies:
+    ip-regex: "npm:^5.0.0"
+  checksum: 10c0/11433b68346f1029543c6ad03468ab5a4eb96970e381aeba7f6075a73fc8202e37b5547c2be0ec11a4de3aa6b5fff23d8173ff8441276fdde07981b271a54f56
+  languageName: node
+  linkType: hard
+
+"cidr-tools@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "cidr-tools@npm:10.0.1"
+  dependencies:
+    ip-bigint: "npm:^8.1.0"
+  checksum: 10c0/db1bf0846f2dee31f761cf5d9735b0c21c865b4f74d813ae9b67be7ab441f586b3ea14c41931397e51ec346571ea054795ab97ae4fa2fe5ce5724a061595ac02
+  languageName: node
+  linkType: hard
+
 "cipher-base@npm:^1.0.0, cipher-base@npm:^1.0.1, cipher-base@npm:^1.0.3":
   version: 1.0.4
   resolution: "cipher-base@npm:1.0.4"
@@ -11088,6 +11106,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ip-address@npm:^9.0.5":
+  version: 9.0.5
+  resolution: "ip-address@npm:9.0.5"
+  dependencies:
+    jsbn: "npm:1.1.0"
+    sprintf-js: "npm:^1.1.3"
+  checksum: 10c0/331cd07fafcb3b24100613e4b53e1a2b4feab11e671e655d46dc09ee233da5011284d09ca40c4ecbdfe1d0004f462958675c224a804259f2f78d2465a87824bc
+  languageName: node
+  linkType: hard
+
+"ip-bigint@npm:^8.1.0":
+  version: 8.1.1
+  resolution: "ip-bigint@npm:8.1.1"
+  checksum: 10c0/285ca9468e6320f6a384cf50d7fc218110a6e03fd771cbbf9c947ae77a96f7d8fd57dfabb39f097c23b906dbcfc5c790588d2424ef8c0b400cceff5672197a60
+  languageName: node
+  linkType: hard
+
+"ip-cidr@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "ip-cidr@npm:4.0.1"
+  dependencies:
+    ip-address: "npm:^9.0.5"
+  checksum: 10c0/047fba5a61c91d136aa9c0f56d62f07e10a70c1b04c7ed57990d5b98f87808ff5d2077a11e06bd91bb3a5c90dd222b08edc20f6f9f4833893cc7ada7cfead795
+  languageName: node
+  linkType: hard
+
+"ip-regex@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "ip-regex@npm:5.0.0"
+  checksum: 10c0/23f07cf393436627b3a91f7121eee5bc831522d07c95ddd13f5a6f7757698b08551480f12e5dbb3bf248724da135d54405c9687733dba7314f74efae593bdf06
+  languageName: node
+  linkType: hard
+
 "ip@npm:^2.0.0":
   version: 2.0.0
   resolution: "ip@npm:2.0.0"
@@ -11099,6 +11150,13 @@ __metadata:
   version: 1.9.1
   resolution: "ipaddr.js@npm:1.9.1"
   checksum: 10c0/0486e775047971d3fdb5fb4f063829bac45af299ae0b82dcf3afa2145338e08290563a2a70f34b732d795ecc8311902e541a8530eeb30d75860a78ff4e94ce2a
+  languageName: node
+  linkType: hard
+
+"ipaddr.js@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "ipaddr.js@npm:2.2.0"
+  checksum: 10c0/e4ee875dc1bd92ac9d27e06cfd87cdb63ca786ff9fd7718f1d4f7a8ef27db6e5d516128f52d2c560408cbb75796ac2f83ead669e73507c86282d45f84c5abbb6
   languageName: node
   linkType: hard
 
@@ -11195,6 +11253,15 @@ __metadata:
   version: 1.2.7
   resolution: "is-callable@npm:1.2.7"
   checksum: 10c0/ceebaeb9d92e8adee604076971dd6000d38d6afc40bb843ea8e45c5579b57671c3f3b50d7f04869618242c6cee08d1b67806a8cb8edaaaf7c0748b3720d6066f
+  languageName: node
+  linkType: hard
+
+"is-cidr@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "is-cidr@npm:5.1.0"
+  dependencies:
+    cidr-regex: "npm:^4.1.1"
+  checksum: 10c0/784d16b6efc3950f9c5ce4141be45b35f3796586986e512cde99d1cb31f9bda5127b1da03e9fb97eb16198e644985e9c0c9a4c6f027ab6e7fff36c121e51bedc
   languageName: node
   linkType: hard
 
@@ -12180,6 +12247,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsbn@npm:1.1.0":
+  version: 1.1.0
+  resolution: "jsbn@npm:1.1.0"
+  checksum: 10c0/4f907fb78d7b712e11dea8c165fe0921f81a657d3443dde75359ed52eb2b5d33ce6773d97985a089f09a65edd80b11cb75c767b57ba47391fee4c969f7215c96
+  languageName: node
+  linkType: hard
+
 "jscodeshift@npm:^0.15.1":
   version: 0.15.2
   resolution: "jscodeshift@npm:0.15.2"
@@ -12698,6 +12772,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mantine-form-zod-resolver@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "mantine-form-zod-resolver@npm:1.1.0"
+  peerDependencies:
+    "@mantine/form": ">=7.0.0"
+    zod: ">=3.0.0"
+  checksum: 10c0/3ff086f2a5d7b9d3d56b09f16fdc27919000c2007279c2e5e6fe85c60c56ee75a13cfebaa1dd341c4ddafd73aba9a3c59a98ea41c59ea8d01c67483dc07ea1ad
+  languageName: node
+  linkType: hard
+
 "mantine-next-template@workspace:.":
   version: 0.0.0-use.local
   resolution: "mantine-next-template@workspace:."
@@ -12732,6 +12816,7 @@ __metadata:
     argon2: "npm:^0.40.3"
     babel-loader: "npm:^9.1.3"
     bcrypt: "npm:^5.1.1"
+    cidr-tools: "npm:^10.0.1"
     eslint: "npm:^8.57.0"
     eslint-config-airbnb: "npm:19.0.4"
     eslint-config-airbnb-typescript: "npm:^18.0.0"
@@ -12742,8 +12827,12 @@ __metadata:
     eslint-plugin-react: "npm:^7.34.3"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-testing-library: "npm:^6.2.2"
+    ip-cidr: "npm:^4.0.1"
+    ipaddr.js: "npm:^2.2.0"
+    is-cidr: "npm:^5.1.0"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
+    mantine-form-zod-resolver: "npm:^1.1.0"
     next: "npm:14.2.4"
     next-auth: "npm:5.0.0-beta.18"
     postcss: "npm:^8.4.38"
@@ -12759,6 +12848,7 @@ __metadata:
     stylelint-config-standard-scss: "npm:^13.1.0"
     ts-jest: "npm:^29.1.5"
     typescript: "npm:5.5.2"
+    zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -15947,6 +16037,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sprintf-js@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "sprintf-js@npm:1.1.3"
+  checksum: 10c0/09270dc4f30d479e666aee820eacd9e464215cdff53848b443964202bf4051490538e5dd1b42e1a65cf7296916ca17640aebf63dae9812749c7542ee5f288dec
+  languageName: node
+  linkType: hard
+
 "sprintf-js@npm:~1.0.2":
   version: 1.0.3
   resolution: "sprintf-js@npm:1.0.3"
@@ -17923,5 +18020,12 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 10c0/856117aa15cf5103d2a2fb173f0ab4acb12b4b4d0ed3ab249fdbbf612e55d1cadfd27a6110940e24746fb0a78cf640b522cc8bca76f30a3b00b66e90cf82abe0
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.23.8":
+  version: 3.23.8
+  resolution: "zod@npm:3.23.8"
+  checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69
   languageName: node
   linkType: hard
