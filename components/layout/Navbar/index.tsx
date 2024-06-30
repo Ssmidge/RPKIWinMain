@@ -33,9 +33,8 @@ import { MantineLogo } from '@mantinex/mantine-logo';
 import Link from 'next/link';
 import { Session } from 'next-auth';
 import { useRouter } from 'next/navigation';
-import { SignOutServer } from '@/components/Authentication/AuthServer';
-  import classes from './Navbar.module.css';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
+import classes from './Navbar.module.css';
 
   const features = [
     {
@@ -146,7 +145,7 @@ import { signIn } from 'next-auth/react';
                           Get started
                         </Text>
                         <Text size="xs" c="dimmed">
-                          What are you waiting for? Let's get started!
+                          What are you waiting for? Let{'\''}s get started!
                         </Text>
                       </div>
                       <Button variant="default">Get started</Button>
@@ -164,11 +163,11 @@ import { signIn } from 'next-auth/react';
                     session?.user ? (
                         <Group>
                             <Link href="/dashboard" onClick={(event: any) => { event.preventDefault(); router.push('/dashboard'); }}><Button variant="outline">Dashboard</Button></Link>
-                            <Button onClick={() => SignOutServer()} variant="default">Sign out</Button>
+                            <Button onClick={() => signOut()} variant="default">Sign out</Button>
                         </Group>
                     ) : (
                         <Group>
-                            <Link href="/auth/signin" onClick={(event: any) => { signIn(); }}><Button variant="default">Log in</Button></Link>
+                            <Link href="/auth/signin" onClick={() => { signIn(); }}><Button variant="default">Log in</Button></Link>
                             <Button>Sign up</Button>
                         </Group>
                     )
@@ -220,7 +219,7 @@ import { signIn } from 'next-auth/react';
                     session?.user ? (
                         <Group>
                             <Link href="/dashboard" onClick={(event: any) => { event.preventDefault(); router.push('/dashboard'); }}><Button variant="outline">Dashboard</Button></Link>
-                            <Button onClick={() => SignOutServer()} variant="default">Sign out</Button>
+                            <Button onClick={() => signOut()} variant="default">Sign out</Button>
                         </Group>
                     ) : (
                         <Group>

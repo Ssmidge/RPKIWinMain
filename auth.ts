@@ -6,7 +6,7 @@ import type { Provider } from 'next-auth/providers';
 import { authConfig } from './auth.config';
 import prisma from './lib/prismaClient';
 
-class InvalidLoginError extends CredentialsSignin {
+export class InvalidLoginError extends CredentialsSignin {
   constructor(message: string, actualErrorMessage?: string) {
     super(actualErrorMessage);
     this.code = `Invalid email or password${message}`;
@@ -61,7 +61,7 @@ async function getUserFromDb(email: string, password: string) {
     return {
       email,
       password,
-      name: email,
+      name: 'John Doe',
     };
   }
   return null;

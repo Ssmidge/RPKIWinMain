@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from '@mantine/form';
-import { signIn } from 'next-auth/react';
 import classes from '@/components/Authentication/SignIn/Signin.module.css';
+import { signIn } from '@/components/Authentication/actions';
 
 export default function HomePage() {
   const form = useForm({
@@ -29,23 +29,15 @@ export default function HomePage() {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const passwordFloating = form.getValues().password?.trim().length !== 0 || passwordFocused || undefined;
 
-  // check for errors first
-
   const [loginError, setLoginError] = useState('');
-  const queryParams = useSearchParams();
-  useEffect(() => {
-    // unescape to be able to get the email
-    const queryParamsClean = new URLSearchParams(decodeURIComponent(queryParams.toString()));
-    if (queryParamsClean?.get('error')) {
-      setLoginError(queryParamsClean.get('code') as string);
-      form.setFieldValue('email', queryParamsClean.get('email') as string);
-    }
-  }, []);
 
   function handleSignIn(values: any) {
-    const res = signIn('credentials', { redirect: false, redirectTo: '/dashboard', ...values }) as any;
-    res.then((result: any) => {
-      console.log(result);
+    const res = signIn(values);
+    res.then((response) => {
+      if (!response?.error) return;
+      setLoginError(response.error.message);
+      form.setFieldValue('email', response.error.email);
+      form.setFieldValue('password', '');
     });
   }
 
