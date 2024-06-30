@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { CredentialsSignin } from 'next-auth';
 import { InvalidLoginError, signIn as signInUser } from '@/auth';
 import prisma from '@/lib/prismaClient';
 
@@ -47,8 +48,15 @@ export async function signIn(values: any) {
             };
             break;
         }
+        case CredentialsSignin: {
+          return {
+            error: {
+                message: 'Invalid email or password',
+            },
+        };
+        }
         default: {
-            throw error;
+          if (!(error instanceof CredentialsSignin)) throw error;
             break;
         }
     }

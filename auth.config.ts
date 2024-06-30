@@ -2,14 +2,12 @@ import { NextAuthConfig } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import prisma from '@/lib/prismaClient';
 
-import { auth } from './auth';
-
 export const authConfig = {
   debug: true,
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   callbacks: {
-      authorized({ request }) {
+      authorized({ auth, request }) {
         const { pathname } = request.nextUrl;
         if (pathname === '/dashboard') return !!auth;
         return true;

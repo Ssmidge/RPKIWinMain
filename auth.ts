@@ -28,18 +28,30 @@ export const providers : Provider[] = [
       // logic to salt and hash password
       const pwHash = await credentials.password;
 
-      try {
-        user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email,
-            hashedPassword: pwHash,
-          },
-        });
+      if (credentials.email === 'a@a.com' && pwHash === 'password') {
+        user = {
+          id: 1,
+          email: 'a@a.com',
+          name: 'John Doe',
+        };
+      }
 
-        return user;
-      } catch (error) {
+      // try {
+      //   user = await prisma.user.findFirst({
+      //     where: {
+      //       email: credentials.email,
+      //       hashedPassword: pwHash,
+      //     },
+      //   });
+
+      //   return user;
+      // } catch (error) {
+      //   throw new InvalidLoginError(`&email=${credentials.email}`);
+      // }
+      if (!user) {
         throw new InvalidLoginError(`&email=${credentials.email}`);
       }
+      return user;
     },
   }),
 ];
