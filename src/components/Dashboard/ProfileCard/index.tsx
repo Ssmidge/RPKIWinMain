@@ -1,19 +1,16 @@
 'use client';
 
 import {
- ActionIcon,
  Avatar,
  Button,
  Card,
  Flex,
  Group,
- Menu,
  Space,
  Stack,
  Text,
  Title,
 } from '@mantine/core';
-import { IconDots, IconEye, IconFileZip, IconTrash } from '@tabler/icons-react';
 import { Session } from 'next-auth';
 import { useRouter } from 'next/navigation';
 

@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, List, Space, Text, ThemeIcon, Title } from '@mantine/core';
-import { IconCircleCheck } from '@tabler/icons-react';
+import { Card, Text, Title } from '@mantine/core';
 import { Session } from 'next-auth';
 
 export function WelcomeCard({ session }: { session: Session | null }) {

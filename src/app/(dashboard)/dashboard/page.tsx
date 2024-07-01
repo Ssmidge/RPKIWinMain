@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { ProfileCard } from '@/components/Dashboard/ProfileCard';
 import { WelcomeCard } from '@/components/Dashboard/WelcomeCard';
 import { PageContainer } from '@/components/PageContainer';
+import { ChangeHistory } from '@/components/Dashboard/ChangeHistory/ChangeHistory';
 
 export default async function HomePage() {
   const session = await auth();
@@ -18,6 +19,9 @@ export default async function HomePage() {
             <Flex direction="column" h="100%" justify="space-between" gap="md">
               <WelcomeCard {...{ session }} />
             </Flex>
+          </GridCol>
+          <GridCol span={12}>
+            <ChangeHistory />
           </GridCol>
         </Grid>
       </PageContainer>
