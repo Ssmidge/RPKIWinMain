@@ -1,11 +1,8 @@
 import { Container } from '@mantine/core';
 import { Hero } from '@/components/Hero';
 import { Dots } from '@/components/Dots';
-import { auth } from '@/auth';
 
 export default async function HomePage() {
-  const session = await auth();
-
   return (
     <>
       <Container>

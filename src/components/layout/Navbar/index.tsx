@@ -105,7 +105,7 @@ import classes from './Navbar.module.css';
                 className={classes.link}
                 onClick={(event) => {
                   event.preventDefault();
-                  router.push('/')
+                  router.push('/');
                 }
               }>
                 Home

@@ -1,11 +1,13 @@
 /* eslint-disable import/no-cycle */
-import NextAuth, { CredentialsSignin } from 'next-auth';
+import NextAuth, { CredentialsSignin, User } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import type { Provider } from 'next-auth/providers';
 import bcrypt from 'bcrypt';
 import { authConfig } from './auth.config';
 import prisma from './lib/prismaClient';
+import { createAvatar } from '@dicebear/core';
+import { identicon } from '@dicebear/collection';
 
 export class InvalidLoginError extends CredentialsSignin {
   constructor(message: string, actualErrorMessage?: string) {
@@ -23,16 +25,21 @@ export const providers : Provider[] = [
       password: {},
     },
     async authorize(credentials: any) {
-      let user = null;
+      let user : User = null;
 
       // logic to salt and hash password
       const pwHash = await credentials.password;
 
+      const avatar = createAvatar(identicon, {
+        seed: credentials.email,
+      });
+
       if (credentials.email === 'a@a.com' && pwHash === 'password') {
         user = {
-          id: 1,
+          id: String(1),
           email: 'a@a.com',
           name: 'John Doe',
+          image: avatar.toDataUri(),
         };
       }
 

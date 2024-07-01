@@ -1,11 +1,11 @@
 import '@mantine/core/styles.css';
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import { SessionProvider } from 'next-auth/react';
 import { theme } from '../../theme';
-import './styles/globals.css';
+import '@/app/styles/globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { auth } from '@/auth';
+import AuthProvider from '@/components/Authentication/AuthProvider';
 
 export const metadata = {
   title: 'RPKI.Win',
@@ -26,12 +26,12 @@ export default async function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="dark">
-          <SessionProvider>
+          <AuthProvider>
             <Navbar {...{
               session,
             }} />
             {children}
-          </SessionProvider>
+          </AuthProvider>
         </MantineProvider>
       </body>
     </html>
