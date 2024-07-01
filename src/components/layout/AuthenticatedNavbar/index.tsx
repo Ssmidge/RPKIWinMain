@@ -25,9 +25,9 @@ export function Navbar({ data, session }: Props) {
 
             <div className={classes.footer}>
                 <UserButton
-                image={String(session?.data?.user?.image || '/assets/img/avatar.png')}
-                name={String(session?.data?.user?.name)}
-                email={String(session?.data?.user?.email)}
+                  image={String(session?.data?.user?.image || '/assets/img/avatar.png')}
+                  name={String(session?.data?.user?.name)}
+                  email={String(session?.data?.user?.email)}
                 />
             </div>
         </>

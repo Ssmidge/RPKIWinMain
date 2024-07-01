@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, GridCol } from '@mantine/core';
+import { Flex, Grid, GridCol } from '@mantine/core';
 import { auth } from '@/auth';
 import { ProfileCard } from '@/components/Dashboard/ProfileCard';
 import { WelcomeCard } from '@/components/Dashboard/WelcomeCard';

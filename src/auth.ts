@@ -4,10 +4,10 @@ import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import type { Provider } from 'next-auth/providers';
 import bcrypt from 'bcrypt';
-import { authConfig } from './auth.config';
-import prisma from './lib/prismaClient';
 import { createAvatar } from '@dicebear/core';
 import { identicon } from '@dicebear/collection';
+import { authConfig } from './auth.config';
+import prisma from './lib/prismaClient';
 
 export class InvalidLoginError extends CredentialsSignin {
   constructor(message: string, actualErrorMessage?: string) {
@@ -25,7 +25,7 @@ export const providers : Provider[] = [
       password: {},
     },
     async authorize(credentials: any) {
-      let user : User = null;
+      let user : User | null = null;
 
       // logic to salt and hash password
       const pwHash = await credentials.password;
