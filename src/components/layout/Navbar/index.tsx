@@ -163,7 +163,7 @@ import classes from './Navbar.module.css';
                 {
                     session?.user ? (
                         <Group>
-                            <Link href="/dashboard" onClick={(event: any) => { event.preventDefault(); router.push('/dashboard'); }}><Button variant="outline">Dashboard</Button></Link>
+                            <a href="/dashboard"><Button variant="outline">Dashboard</Button></a>
                             <Button onClick={() => signOut()} variant="default">Sign out</Button>
                         </Group>
                     ) : (
